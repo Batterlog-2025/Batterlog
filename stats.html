@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>バッターログ - 統計ダッシュボード</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    
+    .header {
+      background-color: #1e88e5;
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .back-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    
+    .app-title {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    .placeholder {
+      width: 24px;
+    }
+    
+    .container {
+      padding: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .section-title {
+      font-size: 18px;
+      font-weight: 500;
+      margin: 16px 0 8px;
+      color: #1e88e5;
+    }
+    
+    .period-selector {
+      background-color: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    .stats-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .stats-card {
+      background-color: white;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .stats-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e88e5;
+      margin: 8px 0;
+    }
+    
+    .stats-label {
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .trend {
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    
+    .trend-up {
+      color: #4caf50;
+    }
+    
+    .trend-down {
+      color: #f44336;
+    }
+    
+    .categories {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .category-item {
+      padding: 16px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .category-item:last-child {
+      border-bottom: none;
+    }
+    
+    .category-name {
+      font-weight: 500;
+    }
+    
+    .arrow {
+      color: #999;
+    }
+    
+    @media (min-width: 600px) {
+      .stats-cards {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button class="back-button" id="back-button">←</button>
+    <div class="app-title">統計ダッシュボード</div>
+    <div class="placeholder"></div>
+  </div>
+  
+  <div class="container">
+    <div class="period-selector">
+      <select id="period-select">
+        <option value="2024">2024年シーズン全体</option>
+        <option value="2024-05">2024年5月</option>
+        <option value="2024-04">2024年4月</option>
+        <option value="2023">2023年シーズン全体</option>
+        <option value="custom">カスタム期間...</option>
+      </select>
+    </div>
+    
+    <div class="section-title">主要指標</div>
+    <div class="stats-cards">
+      <div class="stats-card">
+        <div class="stats-label">打率</div>
+        <div class="stats-value">.289</div>
+        <div class="trend trend-up">
+          <span>↑</span>
+          <span>.015</span>
+        </div>
+      </div>
+      <div class="stats-card">
+        <div class="stats-label">出塁率</div>
+        <div class="stats-value">.345</div>
+        <div class="trend trend-up">
+          <span>↑</span>
+          <span>.010</span>
+        </div>
+      </div>
+      <div class="stats-card">
+        <div class="stats-label">長打率</div>
+        <div class="stats-value">.423</div>
+        <div class="trend trend-down">
+          <span>↓</span>
+          <span>.008</span>
+        </div>
+      </div>
+      <div class="stats-card">
+        <div class="stats-label">OPS</div>
+        <div class="stats-value">.768</div>
+        <div class="trend trend-up">
+          <span>↑</span>
+          <span>.002</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section-title">統計カテゴリ</div>
+    <div class="categories">
+      <div class="category-item" id="yearly-stats">
+        <div class="category-name">年間成績詳細</div>
+        <div class="arrow">→</div>
+      </div>
+      <div class="category-item" id="batting-analysis">
+        <div class="category-name">打撃分析</div>
+        <div class="arrow">→</div>
+      </div>
+      <div class="category-item" id="pitcher-type-stats">
+        <div class="category-name">対投手タイプ別成績</div>
+        <div class="arrow">→</div>
+      </div>
+      <div class="category-item" id="situation-stats">
+        <div class="category-name">状況別成績</div>
+        <div class="arrow">→</div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 戻るボタンの処理
+      document.getElementById('back-button').addEventListener('click', function() {
+        window.location.href = 'index.html'; // マイページに戻る
+      });
+      
+      // 年間成績詳細へのリンク
+      document.getElementById('yearly-stats').addEventListener('click', function() {
+        window.location.href = 'annual-stats-detail.html'; // 年間成績詳細ページへ
+      });
+      
+      // その他のカテゴリリンクも同様に実装
+      document.getElementById('batting-analysis').addEventListener('click', function() {
+        window.location.href = 'batting-analysis.html';
+      });
+      
+      document.getElementById('pitcher-type-stats').addEventListener('click', function() {
+        window.location.href = 'pitcher-type-stats.html';
+      });
+      
+      document.getElementById('situation-stats').addEventListener('click', function() {
+        window.location.href = 'situation-stats.html';
+      });
+    });
+  </script>
+</body>
+</html>

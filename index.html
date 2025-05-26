@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バッターログ - マイページ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding-bottom: 60px;
+        }
+
+        .tab-bar {
+            display: flex;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 0;
+            color: #718096;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-item i {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+
+        .tab-item.active {
+            color: #3182ce;
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+
+            body {
+                padding-bottom: 0;
+            }
+
+            .tab-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-white min-h-screen">
+
+    <header
+        class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md sticky top-0 left-0 right-0 z-10">
+        <div class="flex items-center">
+            <i class="fas fa-baseball-ball mr-2"></i>
+            <h1 class="text-xl font-bold">バッターログ</h1>
+        </div>
+        <button class="p-2 no-print"><i class="fas fa-bars"></i></button>
+    </header>
+
+    <div class="container mx-auto p-4 max-w-lg">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex items-center mb-4">
+                <div
+                    class="w-20 h-20 rounded-full bg-gray-200 overflow-hidden mr-4 border-4 border-blue-500 flex items-center justify-center">
+                    <i class="fas fa-user text-4xl text-blue-300"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">山田 太郎</h2>
+                    <p class="text-gray-700">ポジション: 外野手</p>
+                    <p class="text-sm text-gray-500">チーム: ダイヤモンドスターズ</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3 border-l-4 border-blue-500 pl-2 flex items-center">
+                <i class="fas fa-history mr-2 text-blue-500"></i>最近の試合結果
+            </h3>
+            <div id="recent-games"></div>
+        </div>
+
+        <button id="record-button"
+            class="w-full py-4 bg-blue-600 text-white rounded-lg font-bold text-lg shadow-md hover:bg-blue-700 transition-colors flex items-center justify-center mb-4">
+            <i class="fas fa-plus-circle mr-2"></i>
+            成績を記録する
+        </button>
+    </div>
+
+    <div class="tab-bar no-print">
+        <div class="tab-item active" id="home-tab">
+            <i class="fas fa-home"></i>
+            <span>ホーム</span>
+        </div>
+        <div class="tab-item" id="stats-tab">
+            <i class="fas fa-chart-bar"></i>
+            <span>統計</span>
+        </div>
+        <div class="tab-item" id="team-tab">
+            <i class="fas fa-users"></i>
+            <span>チーム</span>
+        </div>
+        <div class="tab-item" id="settings-tab">
+            <i class="fas fa-cog"></i>
+            <span>設定</span>
+        </div>
+    </div>
+
+    <script>
+        function renderRecentGames() {
+            const recentGamesSection = document.getElementById('recent-games');
+            recentGamesSection.innerHTML = '';
+
+            const gamesData = JSON.parse(localStorage.getItem('games')) || [];
+
+            gamesData.forEach((game, index) => {
+                const gameDiv = document.createElement('div');
+                gameDiv.classList.add('bg-white', 'rounded-lg', 'shadow-sm', 'mb-3', 'p-4', 'border-l-4', 'border-blue-400');
+
+                gameDiv.innerHTML = `
+            <div class="flex justify-between items-center mb-1">
+                <span class="font-semibold">vs ${game.opponent}</span>
+                <span class="text-sm text-gray-500">${game.date}</span>
+            </div>
+            <div class="flex justify-between items-center text-sm">
+                <span>${game.atBats}打数 ${game.hits}安打 ${game.rbis}打点</span>
+                <span class="text-blue-600 font-medium">打率 ${game.average}</span>
+            </div>
+            <div class="mt-2 text-xs text-gray-500">
+                ${game.notes && game.notes.length > 0
+                        ? game.notes.map(note => `<span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded mr-1">${note}</span>`).join('')
+                        : 'ノートなし'
+                    }
+            </div>
+            <button class="mt-3 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600" data-index="${index}">
+                削除
+            </button>
+        `;
+
+                recentGamesSection.appendChild(gameDiv);
+            });
+
+            // 削除ボタンにイベントを設定
+            recentGamesSection.querySelectorAll('button[data-index]').forEach(button => {
+                button.addEventListener('click', function () {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    if (confirm("この試合の成績を削除してもよろしいですか？")) {
+                        gamesData.splice(index, 1);
+                        localStorage.setItem('games', JSON.stringify(gamesData));
+                        renderRecentGames();
+                    }
+                });
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            renderRecentGames();
+
+            document.getElementById('home-tab').addEventListener('click', function () {
+                window.location.href = 'index.html';
+            });
+            document.getElementById('stats-tab').addEventListener('click', function () {
+                window.location.href = 'stats.html';
+            });
+            document.getElementById('team-tab').addEventListener('click', function () {
+                window.location.href = 'team.html';
+            });
+            document.getElementById('settings-tab').addEventListener('click', function () {
+                window.location.href = 'settings.html';
+            });
+        });
+        // 成績記録ボタン
+        document.getElementById('record-button').addEventListener('click', function () {
+            window.location.href = 'game-entry.html';
+        });
+    </script>
+
+</body>
+
+</html>

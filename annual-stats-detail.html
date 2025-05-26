@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バッターログ - 年間成績詳細</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f9fafb;
+        }
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="backButton" class="mr-4 text-white hover:text-blue-200 focus:outline-none">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <h1 class="text-2xl font-bold">バッターログ</h1>
+            </div>
+            <div class="relative inline-block text-white">
+                <select id="yearSelect" class="bg-blue-700 border border-blue-500 rounded py-1 px-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    <option value="2023">2023年</option>
+                    <option value="2022">2022年</option>
+                    <option value="2021">2021年</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 max-w-6xl">
+        <section class="mb-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">2023年シーズン成績概要</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div class="stat-card bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-500">
+                    <p class="text-gray-500 text-sm">試合数</p>
+                    <p class="text-2xl font-bold">28</p>
+                </div>
+                <div class="stat-card bg-white p-4 rounded-lg shadow-md border-l-4 border-green-500">
+                    <p class="text-gray-500 text-sm">打率</p>
+                    <p class="text-2xl font-bold">.324</p>
+                </div>
+                <div class="stat-card bg-white p-4 rounded-lg shadow-md border-l-4 border-yellow-500">
+                    <p class="text-gray-500 text-sm">出塁率</p>
+                    <p class="text-2xl font-bold">.412</p>
+                </div>
+                <div class="stat-card bg-white p-4 rounded-lg shadow-md border-l-4 border-red-500">
+                    <p class="text-gray-500 text-sm">OPS</p>
+                    <p class="text-2xl font-bold">.876</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4">主要成績</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">打数</p>
+                        <p class="text-xl font-bold">105</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">安打</p>
+                        <p class="text-xl font-bold">34</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">二塁打</p>
+                        <p class="text-xl font-bold">8</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">三塁打</p>
+                        <p class="text-xl font-bold">2</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">本塁打</p>
+                        <p class="text-xl font-bold">5</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">打点</p>
+                        <p class="text-xl font-bold">26</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">四球</p>
+                        <p class="text-xl font-bold">15</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">死球</p>
+                        <p class="text-xl font-bold">3</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">三振</p>
+                        <p class="text-xl font-bold">20</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">盗塁</p>
+                        <p class="text-xl font-bold">7</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">打席数</p>
+                        <p class="text-xl font-bold">126</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">長打率</p>
+                        <p class="text-xl font-bold">.581</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">犠打</p>
+                        <p class="text-xl font-bold">2</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">犠飛</p>
+                        <p class="text-xl font-bold">1</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">得点</p>
+                        <p class="text-xl font-bold">22</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">打率推移</h2>
+            <div class="chart-container">
+                <canvas id="battingAverageChart"></canvas>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">打撃成績内訳</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3">打席結果の割合</h3>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="atBatResultChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3">安打の種類別</h3>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="hitTypeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">試合別成績</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">日付</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">対戦相手</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">打数-安打</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">打率</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">HR</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">打点</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023/9/24</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ファイターズ</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">4-2</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">.500</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023/9/17</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ジャイアンツ</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3-1</td>
