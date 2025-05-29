@@ -2,391 +2,71 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>バッターログ - 試合入力</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', Meiryo, sans-serif;
-        }
-
-        .header {
-            background-color: #1E88E5;
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .back-button {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .app-title {
-            font-size: 18px;
-            font-weight: 500;
-            margin: 0 auto;
-            /* タイトルを中央に配置 */
-        }
-
-        .placeholder {
-            width: 24px;
-        }
-
-        .btn-primary {
-            background-color: #3b82f6;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-
-        .btn-primary:hover {
-            background-color: #2563eb;
-        }
-
-        .btn-secondary {
-            background-color: #e5e7eb;
-            color: #374151;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background-color: #d1d5db;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            background-color: white;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-            color: #374151;
-        }
-
-        .nav-link {
-            color: #1f2937;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #3b82f6;
-        }
-
-        .form-section {
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .form-section-title {
-            font-weight: 600;
-            font-size: 1.125rem;
-            color: #1f2937;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 0.5rem;
-        }
-
-        .stat-input {
-            width: 80px;
-            text-align: center;
-        }
-
-        @media (max-width: 640px) {
-            .stat-input {
-                width: 60px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>打撃成績入力フォーム</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="game-entry.css" />
 </head>
 
 <body class="bg-gray-50 min-h-screen">
-    <!-- ヘッダー -->
-    <div class="bg-blue-600">
-        <!-- <div class="header"> -->
-            <button class="back-button" id="back-button">←</button>
-            <h1 class="app-title">試合入力</h1>
-            <div class="placeholder"></div>
-            <div>
-                <button>
-                    <i class="fas fa-bars text-white text-xl"></i>
-                </button>
-            </div>
-        <!-- </div> -->
+  <!-- ヘッダー -->
+  <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md sticky top-0 left-0 right-0 z-10">
+    <button onclick="location.href='index.html'" class="p-2 no-print hover:text-gray-300">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <div class="flex items-center">
+      <i class="fas fa-baseball-ball mr-2"></i>
+      <h1 class="text-xl font-bold">打撃成績入力フォーム</h1>
     </div>
+    <div class="w-6"></div> <!-- spacer -->
+  </header>
 
-    <!-- メインコンテンツ -->
-    <main class="container mx-auto px-4 py-6 max-w-3xl">
-        <form>
-            <!-- 試合情報セクション -->
-            <div class="form-section mb-6">
-                <h2 class="form-section-title">試合情報</h2>
-
-                <div class="mb-4">
-                    <label for="game-date" class="form-label">試合日</label>
-                    <input type="date" id="game-date" class="form-input" required>
-                </div>
-
-                <div class="mb-4">
-                    <label for="opponent" class="form-label">対戦相手</label>
-                    <input type="text" id="opponent" class="form-input" placeholder="チーム名を入力" required>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="game-location" class="form-label">球場</label>
-                        <input type="text" id="game-location" class="form-input" placeholder="球場名を入力">
-                    </div>
-                    <div>
-                        <label for="game-type" class="form-label">試合種別</label>
-                        <select id="game-type" class="form-input">
-                            <option value="regular">定期戦</option>
-                            <option value="practice">練習試合</option>
-                            <option value="tournament">大会</option>
-                            <option value="other">その他</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 打撃成績セクション -->
-            <div class="form-section mb-6">
-                <h2 class="form-section-title">打撃成績</h2>
-
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-                    <div>
-                        <label for="at-bats" class="form-label">打数</label>
-                        <input type="number" id="at-bats" class="form-input stat-input" min="0" value="0" required>
-                    </div>
-                    <div>
-                        <label for="hits" class="form-label">安打</label>
-                        <input type="number" id="hits" class="form-input stat-input" min="0" value="0" required>
-                    </div>
-                    <div>
-                        <label for="doubles" class="form-label">二塁打</label>
-                        <input type="number" id="doubles" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="triples" class="form-label">三塁打</label>
-                        <input type="number" id="triples" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="home-runs" class="form-label">本塁打</label>
-                        <input type="number" id="home-runs" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="rbis" class="form-label">打点</label>
-                        <input type="number" id="rbis" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="runs" class="form-label">得点</label>
-                        <input type="number" id="runs" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="walks" class="form-label">四球</label>
-                        <input type="number" id="walks" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="strikeouts" class="form-label">三振</label>
-                        <input type="number" id="strikeouts" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="steals" class="form-label">盗塁</label>
-                        <input type="number" id="steals" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="sacrifices" class="form-label">犠打</label>
-                        <input type="number" id="sacrifices" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="errors" class="form-label">失策</label>
-                        <input type="number" id="errors" class="form-input stat-input" min="0" value="0">
-                    </div>
-                </div>
-            </div>
-
-            <!-- 守備位置セクション -->
-            <div class="form-section mb-6">
-                <h2 class="form-section-title">守備位置</h2>
-
-                <div class="mb-4">
-                    <label for="position" class="form-label">メインポジション</label>
-                    <select id="position" class="form-input">
-                        <option value="pitcher">投手</option>
-                        <option value="catcher">捕手</option>
-                        <option value="first">一塁手</option>
-                        <option value="second">二塁手</option>
-                        <option value="third">三塁手</option>
-                        <option value="shortstop">遊撃手</option>
-                        <option value="leftfield">左翼手</option>
-                        <option value="centerfield">中堅手</option>
-                        <option value="rightfield">右翼手</option>
-                        <option value="dh">指名打者</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="position-note" class="form-label">ポジション備考</label>
-                    <textarea id="position-note" class="form-input" rows="2" placeholder="例: 3回から外野に移動"></textarea>
-                </div>
-            </div>
-
-            <!-- 投手成績セクション（投手の場合） -->
-            <div class="form-section mb-6">
-                <div class="flex justify-between items-center">
-                    <h2 class="form-section-title mb-0">投手成績</h2>
-                    <div class="form-check">
-                        <input type="checkbox" id="is-pitcher" class="mr-1">
-                        <label for="is-pitcher">投手として登板した</label>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                    <div>
-                        <label for="innings" class="form-label">投球回</label>
-                        <input type="number" id="innings" class="form-input stat-input" min="0" step="0.1" value="0">
-                    </div>
-                    <div>
-                        <label for="runs-allowed" class="form-label">失点</label>
-                        <input type="number" id="runs-allowed" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="earned-runs" class="form-label">自責点</label>
-                        <input type="number" id="earned-runs" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="hits-allowed" class="form-label">被安打</label>
-                        <input type="number" id="hits-allowed" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="strikeouts-pitched" class="form-label">奪三振</label>
-                        <input type="number" id="strikeouts-pitched" class="form-input stat-input" min="0" value="0">
-                    </div>
-                    <div>
-                        <label for="walks-allowed" class="form-label">与四球</label>
-                        <input type="number" id="walks-allowed" class="form-input stat-input" min="0" value="0">
-                    </div>
-                </div>
-            </div>
-
-            <!-- メモセクション -->
-            <div class="form-section mb-10">
-                <h2 class="form-section-title">試合メモ</h2>
-
-                <div>
-                    <textarea id="game-note" class="form-input" rows="3" placeholder="試合の感想や反省点を記録しましょう"></textarea>
-                </div>
-            </div>
-
-            <!-- ボタンエリア -->
-            <div class="flex justify-between items-center mb-8">
-                <button type="button" class="btn-secondary">
-                    キャンセル
-                </button>
-                <button type="submit" class="btn-primary">
-                    <i class="fas fa-save mr-1"></i> 保存する
-                </button>
-            </div>
-        </form>
-    </main>
-
-    <!-- フッター -->
-    <footer class="bg-gray-100 py-4 text-center text-gray-600 text-sm">
-        <div class="container mx-auto">
-            <p>© 2023 バッターログ - 草野球成績管理アプリ</p>
+  <!-- メイン -->
+  <main class="max-w-2xl mx-auto bg-white p-6 mt-6 rounded-lg shadow-md">
+    <form id="batter-form">
+      <!-- 試合情報 -->
+      <section class="mb-6 space-y-4">
+        <h2 class="text-lg font-semibold border-b pb-1">試合情報</h2>
+        <div class="grid gap-4 md:grid-cols-3">
+          <div>
+            <label for="game-date" class="block text-sm font-medium text-gray-700">日付</label>
+            <input type="date" id="game-date" name="game-date" class="w-full mt-1 p-2 border rounded" />
+          </div>
+          <div>
+            <label for="opponent" class="block text-sm font-medium text-gray-700">対戦相手</label>
+            <input type="text" id="opponent" name="opponent" class="w-full mt-1 p-2 border rounded" placeholder="例：○○クラブ" />
+          </div>
+          <div>
+            <label for="location" class="block text-sm font-medium text-gray-700">場所</label>
+            <input type="text" id="location" name="location" class="w-full mt-1 p-2 border rounded" placeholder="例：○○球場" />
+          </div>
         </div>
-    </footer>
-    <script>
-        // マイページへ戻る
-        document.getElementById('back-button').addEventListener('click', function () {
-            window.location.href = 'index.html'; // マイページに戻る
-        });
-        document.querySelector('form').addEventListener('submit', function (event) {
-            event.preventDefault(); // フォーム送信を止める
+      </section>
 
-            // 必須項目の取得
-            const gameDate = document.getElementById('game-date').value;
-            const opponent = document.getElementById('opponent').value;
+      <!-- 打席入力欄 -->
+      <h2 class="text-lg font-semibold mb-4 border-b pb-1">打席ごとの入力</h2>
+      <div id="at-bats-container" class="space-y-4">
+        <!-- JavaScriptで動的に追加 -->
+      </div>
 
-            // バリデーション：必須項目が空でないか確認
-            if (!gameDate || !opponent) {
-                alert('試合日と対戦相手は必須です。');
-                return;
-            }
+      <!-- ボタン -->
+      <div class="mt-6 flex gap-3">
+        <button type="button" id="add-at-bat-btn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          ＋打席を追加する
+        </button>
+        <button type="submit" id="save-btn" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          成績を保存
+        </button>
+      </div>
+    </form>
 
-            // 入力された値を取得
-            const gameData = {
-                date: gameDate,
-                opponent: opponent,
-                location: document.getElementById('game-location').value,
-                gameType: document.getElementById('game-type').value,
-                atBats: parseInt(document.getElementById('at-bats').value) || 0,  // 数値が入力されていない場合は0にする
-                hits: parseInt(document.getElementById('hits').value) || 0,
-                doubles: parseInt(document.getElementById('doubles').value) || 0,
-                triples: parseInt(document.getElementById('triples').value) || 0,
-                homeRuns: parseInt(document.getElementById('home-runs').value) || 0,
-                rbis: parseInt(document.getElementById('rbis').value) || 0,
-                runs: parseInt(document.getElementById('runs').value) || 0,
-                walks: parseInt(document.getElementById('walks').value) || 0,
-                strikeouts: parseInt(document.getElementById('strikeouts').value) || 0,
-                steals: parseInt(document.getElementById('steals').value) || 0,
-                sacrifices: parseInt(document.getElementById('sacrifices').value) || 0,
-                errors: parseInt(document.getElementById('errors').value) || 0,
-                position: document.getElementById('position').value,
-                positionNote: document.getElementById('position-note').value,
-                isPitcher: document.getElementById('is-pitcher').checked,  // チェックボックスの値（true/false）
-                innings: parseFloat(document.getElementById('innings').value) || 0,
-                runsAllowed: parseInt(document.getElementById('runs-allowed').value) || 0,
-                earnedRuns: parseInt(document.getElementById('earned-runs').value) || 0,
-                hitsAllowed: parseInt(document.getElementById('hits-allowed').value) || 0,
-                strikeoutsPitched: parseInt(document.getElementById('strikeouts-pitched').value) || 0,
-                walksAllowed: parseInt(document.getElementById('walks-allowed').value) || 0,
-                gameNote: document.getElementById('game-note').value
-            };
+    <!-- JSON出力（任意表示） -->
+    <div id="output" class="mt-6 text-sm text-gray-700 whitespace-pre-wrap"></div>
+  </main>
 
-            // ゲームデータを取得
-            let savedGames = JSON.parse(localStorage.getItem('games') || '[]');
-            savedGames.push(gameData);
-            localStorage.setItem('games', JSON.stringify(savedGames)); // すべてのゲームを保存
-
-            // 最新のゲームデータを recent-games に保存
-            let recentGames = [gameData]; // 最新の試合を保存
-            localStorage.setItem('recent-games', JSON.stringify('games'));
-
-            // 完了メッセージ
-            alert('試合の記録を保存しました！');
-
-        });
-    </script>
-
+  <script src="game-entry.js"></script>
 </body>
 
 </html>
