@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バッターログ - マイページ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/index.css">
+</head>
+
+<body class="bg-white min-h-screen">
+
+    <header
+        class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md sticky top-0 left-0 right-0 z-10">
+        <div class="flex items-center">
+            <i class="fas fa-baseball-ball mr-2"></i>
+            <h1 class="text-xl font-bold">バッターログ</h1>
+        </div>
+        <button class="p-2 no-print"><i class="fas fa-bars"></i></button>
+    </header>
+
+    <div class="container mx-auto p-4 max-w-lg">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex items-center mb-4">
+                <div
+                    class="w-20 h-20 rounded-full bg-gray-200 overflow-hidden mr-4 border-4 border-blue-500 flex items-center justify-center">
+                    <i class="fas fa-user text-4xl text-blue-300"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">山田 太郎</h2>
+                    <p class="text-gray-700">ポジション: 外野手</p>
+                    <p class="text-sm text-gray-500">チーム: ダイヤモンドスターズ</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3 border-l-4 border-blue-500 pl-2 flex items-center">
+                <i class="fas fa-history mr-2 text-blue-500"></i>最近の試合結果
+            </h3>
+            <div id="recent-games"></div>
+        </div>
+
+        <button id="record-button"
+            class="w-full py-4 bg-blue-600 text-white rounded-lg font-bold text-lg shadow-md hover:bg-blue-700 transition-colors flex items-center justify-center mb-4">
+            <i class="fas fa-plus-circle mr-2"></i>
+            成績を記録する
+        </button>
+    </div>
+
+    <div class="tab-bar no-print">
+        <div class="tab-item active" id="home-tab">
+            <i class="fas fa-home"></i>
+            <span>ホーム</span>
+        </div>
+        <div class="tab-item" id="stats-tab">
+            <i class="fas fa-chart-bar"></i>
+            <span>統計</span>
+        </div>
+        <div class="tab-item" id="team-tab">
+            <i class="fas fa-users"></i>
+            <span>チーム</span>
+        </div>
+        <div class="tab-item" id="settings-tab">
+            <i class="fas fa-cog"></i>
+            <span>設定</span>
+        </div>
+    </div>
+
+    <!-- index.html 最下部の script タグの代わりに以下を追加 -->
+    <script src="index.js" defer></script>
+
+</body>
+
+</html>
