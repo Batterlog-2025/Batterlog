@@ -1,14 +1,19 @@
+// 打席数のカウンター
 let atBatCount = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("at-bats-container");
-  const addBtn = document.getElementById("add-at-bat-btn");
-  const form = document.getElementById("batter-form");
+  // 入力フォームの各要素取得
+  const container = document.getElementById("at-bats-container"); // 打席フォームを入れるコンテナ
+  const addBtn = document.getElementById("add-at-bat-btn");      // 打席追加ボタン
+  const form = document.getElementById("batter-form");           // 全体のフォーム
 
+  // 1打席分の入力フォームを作成する関数
   function createAtBatBlock(index) {
+    // 親div要素作成
     const wrapper = document.createElement("div");
-    wrapper.className = "at-bat border rounded p-4 shadow-sm";
+    wrapper.className = "at-bat border rounded p-4 shadow-sm mb-4";
 
+    // innerHTMLでフォームの内容を入れる
     wrapper.innerHTML = `
       <h3 class="text-md font-semibold mb-2">第${index + 1}打席</h3>
 
@@ -75,40 +80,48 @@ document.addEventListener("DOMContentLoaded", () => {
       </fieldset>
     `;
 
+    // 作成したフォームをコンテナに追加
     container.appendChild(wrapper);
   }
 
+  // 初期状態で1打席フォームを作成
   createAtBatBlock(atBatCount);
   atBatCount++;
 
+  // 「打席追加」ボタン押下時にフォームを追加
   addBtn.addEventListener("click", () => {
     createAtBatBlock(atBatCount);
     atBatCount++;
   });
 
+  // フォームの送信イベント
   form.addEventListener("submit", (e) => {
-    e.preventDefault();
+    e.preventDefault(); // ページリロード防止
+
     if (!confirm("入力内容を確認しましたか？ 保存しますか？")) return;
 
+    // 試合情報の取得
     const gameDate = form.querySelector("[name='game-date']").value;
     const opponent = form.querySelector("[name='opponent']").value;
     const location = form.querySelector("[name='location']").value;
 
+    // 打席詳細・成績集計用変数初期化
     const details = [];
-    let plateAppearances = 0;
-    let atBats = 0;
-    let hits = 0;
-    let doubles = 0;
-    let triples = 0;
-    let homeRuns = 0;
-    let walks = 0;
-    let hbp = 0;
-    let strikeouts = 0;
-    let rbis = 0;
-    let runs = 0;
-    let steals = 0;
-    let totalBases = 0;
+    let plateAppearances = 0;  // 打席数
+    let atBats = 0;            // 打数
+    let hits = 0;              // 安打数
+    let doubles = 0;           // 二塁打
+    let triples = 0;           // 三塁打
+    let homeRuns = 0;          // 本塁打
+    let walks = 0;             // 四球
+    let hbp = 0;               // 死球
+    let strikeouts = 0;        // 三振
+    let rbis = 0;              // 打点
+    let runs = 0;              // 得点
+    let steals = 0;            // 盗塁
+    let totalBases = 0;        // 塁打数
 
+    // 各打席ごとにデータ取得＆成績計算
     for (let i = 0; i < atBatCount; i++) {
       const result = form.querySelector(`[name="result-${i}"]`)?.value || "";
       const rbi = Number(form.querySelector(`[name="rbi-${i}"]`)?.value || 0);
@@ -119,10 +132,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const runner2 = form.querySelector(`[name="runner2-${i}"]`)?.checked || false;
       const runner3 = form.querySelector(`[name="runner3-${i}"]`)?.checked || false;
 
-      // カウント処理
+      // 空の打席はスキップ（打撃結果が未選択なら）
+      if (!result) continue;
+
+      // 打席数は四球、死球、犠打、犠飛も含む
       plateAppearances++;
+
+      // 打数は四球、死球、犠打、犠飛は除く
       if (!["四球", "死球", "犠打", "犠飛"].includes(result)) atBats++;
 
+      // 打撃結果ごとのカウント処理
       switch (result) {
         case "ヒット":
           hits++;
@@ -158,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
       steals += sb;
       runs += run;
 
+      // 詳細データを配列に保存
       details.push({
         result,
         rbi,
@@ -172,13 +192,20 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // 成績の計算
+    // 打率計算（打数0なら0.000）
     const battingAverage = atBats ? (hits / atBats).toFixed(3) : "0.000";
+
+    // 出塁率計算： (安打＋四球＋死球) ÷ (打数＋四球＋死球)
     const obpDenominator = atBats + walks + hbp;
     const onBasePercentage = obpDenominator ? ((hits + walks + hbp) / obpDenominator).toFixed(3) : "0.000";
+
+    // 長打率計算：塁打数 ÷ 打数
     const sluggingPercentage = atBats ? (totalBases / atBats).toFixed(3) : "0.000";
+
+    // OPS = 出塁率 + 長打率
     const ops = (parseFloat(onBasePercentage) + parseFloat(sluggingPercentage)).toFixed(3);
 
+    // 新しい試合データオブジェクト
     const newGame = {
       date: gameDate,
       opponent,
@@ -202,10 +229,16 @@ document.addEventListener("DOMContentLoaded", () => {
       details
     };
 
+    // ローカルストレージから既存データ取得（なければ空配列）
     const storedGames = JSON.parse(localStorage.getItem("games")) || [];
+
+    // 新しい試合データを先頭に追加
     storedGames.unshift(newGame);
+
+    // ローカルストレージに保存（JSON文字列化）
     localStorage.setItem("games", JSON.stringify(storedGames));
 
+    // 保存完了のメッセージとページ遷移
     alert("保存しました。マイページに移動します。");
     window.location.href = "index.html";
   });

@@ -7,24 +7,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ページ遷移
-  document.getElementById('yearly-stats').addEventListener('click', () => {
-    window.location.href = 'annual-stats-detail.html';
-  });
-  document.getElementById('batting-analysis').addEventListener('click', () => {
-    window.location.href = 'batting-analysis.html';
-  });
-  document.getElementById('pitcher-type-stats').addEventListener('click', () => {
-    window.location.href = 'pitcher-type-stats.html';
-  });
-  document.getElementById('situation-stats').addEventListener('click', () => {
-    window.location.href = 'situation-stats.html';
-  });
+ // ページ遷移（年を保存してから移動する！）
+document.getElementById('yearly-stats').addEventListener('click', () => {
+  const selectedYear = document.getElementById('period-select').value;
+  localStorage.setItem('selectedYear', selectedYear); // ← ここがポイント！
+  window.location.href = 'annual-stats-detail.html';
+});
+
+document.getElementById('batting-analysis').addEventListener('click', () => {
+  const selectedYear = document.getElementById('period-select').value;
+  localStorage.setItem('selectedYear', selectedYear); // ← これも！
+  window.location.href = 'batting-analysis.html';
+});
+
 
   // プルダウン変更時に再描画
   document.getElementById('period-select').addEventListener('change', function () {
-    renderMainStats();
-  });
+  const selectedYear = this.value;
+  localStorage.setItem('selectedYear', selectedYear); // ← メモする！
+  renderMainStats();
+});
 
   renderMainStats();
 });

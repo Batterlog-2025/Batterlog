@@ -7,42 +7,33 @@
   <title>年間成績詳細</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="annual-stats-detail.css" />
+  <link rel="stylesheet" href="assets/css/annual-stats-detail.css" />
   <link rel="stylesheet" href="assets/css/stats.css" />
 </head>
 
 <body class="bg-gray-100 text-gray-800">
-
-
   <!-- ヘッダー -->
-  <header
-    class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md sticky top-0 left-0 right-0 z-10">
+  <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md sticky top-0 left-0 right-0 z-10">
     <button id="back-button" class="p-2 no-print hover:text-gray-300">
       <i class="fas fa-arrow-left"></i>
     </button>
-
     <div class="flex items-center">
       <i class="fas fa-chart-bar mr-2"></i>
       <h1 class="text-xl font-bold">年間成績詳細</h1>
     </div>
     <div class="w-6"></div> <!-- spacer -->
   </header>
-  <div class="max-w-screen-2xl mx-auto p-4 space-y-6">
+
+  <main class="max-w-screen-md mx-auto p-4 space-y-6">
     <!-- 成績サマリー -->
     <div class="section-title">サマリー</div>
-
-    <div class="stats-cards" id="summary-grid"></div>
-    <!-- JavaScriptで個別の成績カードを挿入 -->
-  </div>
-
-  <!-- JavaScriptで自動挿入 -->
-
+    <div class="stats-summary-grid stats-cards" id="summary-grid"></div>
+  </main>
 
   <!-- 試合別成績テーブル -->
-  <div class="max-w-screen-2xl mx-auto p-4 space-y-6">
+  <section class="max-w-screen-2xl mx-auto p-4 space-y-6">
     <h2 class="section-title">試合別成績</h2>
-    <section class="bg-white rounded-xl shadow p-4 overflow-x-auto">
-
+    <div class="bg-white rounded-xl shadow p-4 overflow-x-auto">
       <table class="min-w-full table-auto border border-gray-300 text-sm">
         <thead class="bg-gray-50">
           <tr>
@@ -62,15 +53,12 @@
           </tr>
         </thead>
         <tbody id="game-list" class="divide-y divide-gray-200">
-          <!-- JavaScriptで試合データ行を挿入 -->
+          <!-- JSで試合データが挿入されます -->
         </tbody>
       </table>
-    </section>
-  </div>
-  </div>
-  </div>
+    </div>
+  </section>
 
-  <!-- JSファイル -->
   <script src="annual-stats-detail.js"></script>
 </body>
 
