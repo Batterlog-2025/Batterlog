@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>バッターログ - 統計ダッシュボード</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/stats.css" />
+</head>
+
+<body>
+  <header
+    class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md sticky top-0 left-0 right-0 z-10">
+    <button id="back-button" class="p-2 no-print hover:text-gray-300">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <div class="flex items-center">
+      <i class="fas fa-chart-bar mr-2"></i>
+      <h1 class="text-xl font-bold">統計ダッシュボード</h1>
+    </div>
+    <div class="w-6"></div> <!-- spacer -->
+  </header>
+
+
+  <div class="container">
+    <div class="period-selector">
+      <select id="period-select">
+        <option value="2025">2025年シーズン全体</option>
+        <option value="2024">2024年シーズン全体</option>
+        <option value="custom">カスタム期間...</option>
+      </select>
+    </div>
+
+    <div class="section-title">主要指標</div>
+    <div class="stats-cards" id="main-stats">
+      <!-- JavaScriptで動的に成績を挿入 -->
+    </div>
+
+    <div class="section-title">統計カテゴリ</div>
+    <div class="categories">
+      <div class="category-item" id="yearly-stats">
+        <div class="category-name">年間成績詳細</div>
+        <div class="arrow">→</div>
+      </div>
+      <div class="category-item" id="batting-analysis">
+        <div class="category-name">打撃分析</div>
+        <div class="arrow">→</div>
+    </div>
+  </div>
+
+  <script src="stats.js"></script>
+</body>
+
+</html>

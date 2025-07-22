@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>打撃成績入力フォーム</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/game-entry.css" />
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+  <!-- ヘッダー -->
+  <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md sticky top-0 left-0 right-0 z-10">
+    <button onclick="location.href='index.html'" class="p-2 no-print hover:text-gray-300">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <div class="flex items-center">
+      <i class="fas fa-baseball-ball mr-2"></i>
+      <h1 class="text-xl font-bold">打撃成績入力フォーム</h1>
+    </div>
+    <div class="w-6"></div> <!-- spacer -->
+  </header>
+
+  <!-- メイン -->
+  <main class="max-w-2xl mx-auto bg-white p-6 mt-6 rounded-lg shadow-md">
+    <form id="batter-form">
+      <!-- 試合情報 -->
+      <section class="mb-6 space-y-4">
+        <h2 class="text-lg font-semibold border-b pb-1">試合情報</h2>
+        <div class="grid gap-4 md:grid-cols-3">
+          <div>
+            <label for="game-date" class="block text-sm font-medium text-gray-700">日付</label>
+            <input type="date" id="game-date" name="game-date" class="w-full mt-1 p-2 border rounded" />
+          </div>
+          <div>
+            <label for="opponent" class="block text-sm font-medium text-gray-700">対戦相手</label>
+            <input type="text" id="opponent" name="opponent" class="w-full mt-1 p-2 border rounded" placeholder="例：○○クラブ" />
+          </div>
+          <div>
+            <label for="location" class="block text-sm font-medium text-gray-700">場所</label>
+            <input type="text" id="location" name="location" class="w-full mt-1 p-2 border rounded" placeholder="例：○○球場" />
+          </div>
+        </div>
+      </section>
+
+      <!-- 打席入力欄 -->
+      <h2 class="text-lg font-semibold mb-4 border-b pb-1">打席ごとの入力</h2>
+      <div id="at-bats-container" class="space-y-4">
+        <!-- JavaScriptで動的に追加 -->
+      </div>
+
+      <!-- ボタン -->
+      <div class="mt-6 flex gap-3">
+        <button type="button" id="add-at-bat-btn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          ＋打席を追加する
+        </button>
+        <button type="submit" id="save-btn" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          成績を保存
+        </button>
+      </div>
+    </form>
+
+    <!-- JSON出力（任意表示） -->
+    <div id="output" class="mt-6 text-sm text-gray-700 whitespace-pre-wrap"></div>
+  </main>
+
+  <script src="game-entry.js"></script>
+</body>
+
+</html>
