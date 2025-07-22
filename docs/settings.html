@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>アカウント設定</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+  <!-- ヘッダー -->
+  <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md sticky top-0">
+    <button onclick="location.href='index.html'" class="p-2 hover:text-gray-300">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <div class="text-xl font-bold flex items-center">
+      <i class="fas fa-user-cog mr-2"></i>
+      アカウント設定
+    </div>
+    <div class="w-6"></div> <!-- spacer -->
+  </header>
+
+  <!-- アカウント追加ボタン -->
+  <div class="max-w-2xl mx-auto mt-4 mb-10 text-right px-6">
+    <button onclick="location.href='add-account.html'"
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      <i class="fas fa-user-plus mr-1"></i> アカウントを追加
+    </button>
+  </div>
+  <!-- メイン -->
+  <main class="max-w-2xl mx-auto bg-white p-6 mt-6 rounded-lg shadow-md">
+    <form id="account-form" class="space-y-6">
+      <!-- プロフィール画像 -->
+      <section>
+        <h2 class="text-lg font-semibold border-b pb-1 mb-3">プロフィール画像</h2>
+        <div class="flex items-center gap-4">
+          <img id="profile-preview" src="assets/img/default-profile.png" alt="プロフィール画像"
+            class="w-20 h-20 rounded-full object-cover border" />
+          <input type="file" id="profile-image" accept="image/*" class="text-sm" />
+        </div>
+      </section>
+
+      <!-- アカウント情報 -->
+      <section>
+        <h2 class="text-lg font-semibold border-b pb-1 mb-3">基本情報</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium">名前 <span class="text-red-500">*</span></label>
+            <input type="text" id="name" class="w-full mt-1 p-2 border rounded" placeholder="例：田中 太郎" required />
+          </div>
+          <div>
+            <label class="block text-sm font-medium">守備位置</label>
+            <input type="text" id="position" class="w-full mt-1 p-2 border rounded" placeholder="例：ショート" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium">所属チーム名</label>
+            <input type="text" id="team" class="w-full mt-1 p-2 border rounded" placeholder="例：○○クラブ" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ボタン -->
+      <div class="flex justify-end gap-3 pt-4 border-t">
+        <button type="button" id="cancel" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">
+          キャンセル
+        </button>
+
+        <button type="button" id="delete-account" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+          アカウント削除
+        </button>
+
+        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          保存する
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <script src="settings.js"></script>
+</body>
+
+</html>
